@@ -47,7 +47,7 @@ type Client struct {
 func (c *Client) auth() error {
 	c.id = generateInstallID()
 	c.client = &fasthttp.Client{
-		Dial: prepareProxy(c.Proxy),
+		Dial: c.Proxy,
 	}
 	req := fasthttp.AcquireRequest()
 	resp := fasthttp.AcquireResponse()
