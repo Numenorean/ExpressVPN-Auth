@@ -14,7 +14,7 @@ import (
 )
 
 func prepareProxy(proxyAddr string) fasthttp.DialFunc {
-	if proxyAddr == ":" {
+	if proxyAddr == ":" || proxyAddr == "" {
 		return nil
 	}
 	proxyAddr = strings.ReplaceAll(proxyAddr, "|", ":")
