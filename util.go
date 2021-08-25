@@ -17,21 +17,24 @@ func prepareProxy(proxyAddr string) fasthttp.DialFunc {
 	if proxyAddr == ":" || proxyAddr == "" {
 		return nil
 	}
-	proxyAddr = strings.ReplaceAll(proxyAddr, "|", ":")
+	
+	if strings.Contains(proxyAddr, "|") {
+		proxyAddr = strings.ReplaceAll(proxyAddr, "|", ":")
 
-	splittedProxy := strings.Split(proxyAddr, ":")
-	switch len(splittedProxy) {
-	case 3:
-		proxyAddr = fmt.Sprintf("%s://%s:%s", strings.ToLower(splittedProxy[2]), splittedProxy[0], splittedProxy[1])
-	case 5:
-		proxyAddr = fmt.Sprintf("%s://%s:%s@%s:%s", strings.ToLower(splittedProxy[2]),
-			splittedProxy[3],
-			splittedProxy[4],
-			splittedProxy[0],
-			splittedProxy[1],
-		)
-	default:
-		return nil
+		splittedProxy := strings.Split(proxyAddr, ":")
+		switch len(splittedProxy) {
+		case 3:
+			proxyAddr = fmt.Sprintf("%s://%s:%s", strings.ToLower(splittedProxy[2]), splittedProxy[0], splittedProxy[1])
+		case 5:
+			proxyAddr = fmt.Sprintf("%s://%s:%s@%s:%s", strings.ToLower(splittedProxy[2]),
+				splittedProxy[3],
+				splittedProxy[4],
+				splittedProxy[0],
+				splittedProxy[1],
+			)
+		default:
+			return nil
+		}
 	}
 
 	if strings.Contains(proxyAddr, "https") {
